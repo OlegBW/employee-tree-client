@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import Tree from "react-d3-tree";
 import { TreeNodeEventCallback } from "react-d3-tree";
+import { useCenteredTree} from '../utils/helpers';
 import '../styles/tree.css';
 
 interface RawNodeDatum {
@@ -98,6 +99,8 @@ function prepareChildren(node: TreeNode) {
 }
 
 function TreeComponent() {
+  // const point = useWindowCenter();
+  const [translate, containerRef] = useCenteredTree();
   const [treeData, setTreeData] = useState(InitialState);
 
   // Функція для завантаження початкових даних дерева
@@ -143,9 +146,11 @@ function TreeComponent() {
     }, [treeData]);
 
   return (
-    <div style={{ width: "100vw", height: "100vh" }}>
+    <div style={{ width: "100vw", height: "100vh" }} ref={containerRef}>
       <Tree
         data={treeData}
+        translate={translate}
+        zoom={0.8}
         onNodeClick={(nodeData, event) => handleNodeClick(nodeData, event)}
         orientation="vertical"
         rootNodeClassName="node__root"
