@@ -1,23 +1,23 @@
-import { useState, ChangeEvent } from "react";
+import { useState, ChangeEvent } from 'react';
 
 interface FilterComponentProps {
   onFilter: (field: string, value: string) => void;
 }
 
-const fields = ["Name", "Email", "Position", "Hiring Date", "ID", "Manager ID"];
+const fields = ['Name', 'Email', 'Position', 'Hiring Date', 'ID', 'Manager ID'];
 
 const fieldNames: Record<string, string> = {
-  ID: "id",
-  Name: "name",
-  Email: "email",
-  Position: "position",
-  "Hiring Date": "hiring_date",
-  "Manager ID": "manager_id",
+  ID: 'id',
+  Name: 'name',
+  Email: 'email',
+  Position: 'position',
+  'Hiring Date': 'hiring_date',
+  'Manager ID': 'manager_id',
 };
 
 const FilterComponent: React.FC<FilterComponentProps> = ({ onFilter }) => {
   const [selectedField, setSelectedField] = useState(fields[0]);
-  const [filterText, setFilterText] = useState("");
+  const [filterText, setFilterText] = useState('');
 
   const handleFieldChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSelectedField(event.target.value);
@@ -33,7 +33,7 @@ const FilterComponent: React.FC<FilterComponentProps> = ({ onFilter }) => {
 
   const handleReset = () => {
     setSelectedField(fields[0]);
-    setFilterText("");
+    setFilterText('');
   };
 
   return (

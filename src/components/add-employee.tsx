@@ -1,4 +1,4 @@
-import { useState, ChangeEvent, FormEvent } from "react";
+import { useState, ChangeEvent, FormEvent } from 'react';
 
 type Employee = {
   name: string;
@@ -7,13 +7,13 @@ type Employee = {
   manager_id: number;
 };
 
-const url = "http://localhost:8000/api/employees/create";
+const url = 'http://localhost:8000/api/employees/create';
 
 const AddEmployeeForm = () => {
   const [employee, setEmployee] = useState<Employee>({
-    name: "",
-    email: "",
-    position: "",
+    name: '',
+    email: '',
+    position: '',
     manager_id: 1,
   });
   const [error, setError] = useState<string | null>(null);
@@ -25,7 +25,7 @@ const AddEmployeeForm = () => {
     const { id, value } = e.target;
     setEmployee({
       ...employee,
-      [id]: id === "manager_id" ? parseInt(value) : value,
+      [id]: id === 'manager_id' ? parseInt(value) : value,
     });
   };
 
@@ -36,27 +36,27 @@ const AddEmployeeForm = () => {
 
     try {
       const response = await fetch(url, {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(employee),
       });
 
       if (response.ok) {
-        setSuccess("Employee added successfully!");
+        setSuccess('Employee added successfully!');
         setEmployee({
-          name: "",
-          email: "",
-          position: "",
+          name: '',
+          email: '',
+          position: '',
           manager_id: 0,
         });
       } else {
         const errorData = await response.json();
-        setError(errorData.detail || "Failed to add employee");
+        setError(errorData.detail || 'Failed to add employee');
       }
     } catch {
-      setError("Network error");
+      setError('Network error');
     }
   };
 

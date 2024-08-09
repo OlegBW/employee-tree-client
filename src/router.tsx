@@ -1,12 +1,12 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import IndexPage from "./pages/root";
-import TreePage from "./pages/tree";
-import EmployeePage from "./pages/employees";
-import LoginPage from "./pages/login";
-import RegisterPage from "./pages/register";
-import AdminPanelPage from "./pages/admin-panel";
-import AddEmployeePage from "./pages/add-employee";
-import ProtectedWrapper from "./components/protected";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import IndexPage from './pages/root';
+import TreePage from './pages/tree';
+import EmployeePage from './pages/employees';
+import LoginPage from './pages/login';
+import RegisterPage from './pages/register';
+import AdminPanelPage from './pages/admin-panel';
+import AddEmployeePage from './pages/add-employee';
+import ProtectedWrapper from './components/protected';
 // import TreePage from './TreePage';
 // import EmployeePage from './EmployeePage';
 

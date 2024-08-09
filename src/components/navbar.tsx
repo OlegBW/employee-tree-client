@@ -1,12 +1,12 @@
-import { Link } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css"; // Импортируем стили Bootstrap
-import "../styles/navbar.css"
+import { Link } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css'; // Импортируем стили Bootstrap
+import '../styles/navbar.css';
 
 const NavigationBar = () => {
   return (
     <nav
       className="navbar navbar-expand-lg navbar-light bg-light border-bottom"
-      style={{ width: "100vw" }}
+      style={{ width: '100vw' }}
     >
       <div className="container">
         <Link className="navbar-brand" to="/">

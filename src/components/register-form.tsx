@@ -1,6 +1,6 @@
 import { useState, FormEvent } from 'react';
 
-const baseUrl = "http://localhost:8000/api/register/";
+const baseUrl = 'http://localhost:8000/api/register/';
 
 const RegistrationForm = () => {
   const [username, setUsername] = useState('');
@@ -32,7 +32,6 @@ const RegistrationForm = () => {
 
       if (response.ok) {
         setSuccess('Registration successful! You can now log in.');
-        // Опционально перенаправить на страницу логина или очистить форму
       } else {
         const errorData = await response.json();
         setError(errorData.detail || 'Registration failed');
@@ -49,7 +48,9 @@ const RegistrationForm = () => {
         {error && <div className="alert alert-danger">{error}</div>}
         {success && <div className="alert alert-success">{success}</div>}
         <div className="mb-3">
-          <label htmlFor="formUsername" className="form-label">Username</label>
+          <label htmlFor="formUsername" className="form-label">
+            Username
+          </label>
           <input
             type="text"
             className="form-control"
@@ -61,7 +62,9 @@ const RegistrationForm = () => {
           />
         </div>
         <div className="mb-3">
-          <label htmlFor="formEmail" className="form-label">Email</label>
+          <label htmlFor="formEmail" className="form-label">
+            Email
+          </label>
           <input
             type="email"
             className="form-control"
@@ -73,7 +76,9 @@ const RegistrationForm = () => {
           />
         </div>
         <div className="mb-3">
-          <label htmlFor="formPassword" className="form-label">Password</label>
+          <label htmlFor="formPassword" className="form-label">
+            Password
+          </label>
           <input
             type="password"
             className="form-control"
@@ -85,7 +90,9 @@ const RegistrationForm = () => {
           />
         </div>
         <div className="mb-3">
-          <label htmlFor="formPassword2" className="form-label">Confirm Password</label>
+          <label htmlFor="formPassword2" className="form-label">
+            Confirm Password
+          </label>
           <input
             type="password"
             className="form-control"
@@ -105,4 +112,3 @@ const RegistrationForm = () => {
 };
 
 export default RegistrationForm;
-

@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
-import { Employee } from "../types/employee";
-import FilterComponent from "./filter";
-import "bootstrap/dist/css/bootstrap.min.css";
+import { useEffect, useState } from 'react';
+import { Employee } from '../types/employee';
+import FilterComponent from './filter';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 type PaginatedEmployees = {
   count: number;
@@ -13,7 +13,7 @@ type Filter = {
   value: string;
 };
 
-const baseUrl = "http://localhost:8000/api/employees/";
+const baseUrl = 'http://localhost:8000/api/employees/';
 
 function constructUrl(
   page: number,
@@ -47,7 +47,7 @@ const EmployeeTable = ({ itemsPerPage }: { itemsPerPage: number }) => {
       const url = constructUrl(currentPage, ordering, filter);
       const resp = await fetch(url);
       if (!resp.ok) {
-        throw new Error("Bad request");
+        throw new Error('Bad request');
       }
 
       const paginatedEmployees: PaginatedEmployees = await resp.json();
@@ -73,7 +73,6 @@ const EmployeeTable = ({ itemsPerPage }: { itemsPerPage: number }) => {
       name: field,
       value,
     });
-    console.log(field, value);
   }
 
   return (
@@ -85,7 +84,7 @@ const EmployeeTable = ({ itemsPerPage }: { itemsPerPage: number }) => {
             <th>
               <button
                 className="btn btn-link p-0"
-                onClick={() => onColumnClick("id")}
+                onClick={() => onColumnClick('id')}
               >
                 ID
               </button>
@@ -93,7 +92,7 @@ const EmployeeTable = ({ itemsPerPage }: { itemsPerPage: number }) => {
             <th>
               <button
                 className="btn btn-link p-0"
-                onClick={() => onColumnClick("name")}
+                onClick={() => onColumnClick('name')}
               >
                 Name
               </button>
@@ -101,7 +100,7 @@ const EmployeeTable = ({ itemsPerPage }: { itemsPerPage: number }) => {
             <th>
               <button
                 className="btn btn-link p-0"
-                onClick={() => onColumnClick("email")}
+                onClick={() => onColumnClick('email')}
               >
                 Email
               </button>
@@ -109,7 +108,7 @@ const EmployeeTable = ({ itemsPerPage }: { itemsPerPage: number }) => {
             <th>
               <button
                 className="btn btn-link p-0"
-                onClick={() => onColumnClick("position")}
+                onClick={() => onColumnClick('position')}
               >
                 Position
               </button>
@@ -117,7 +116,7 @@ const EmployeeTable = ({ itemsPerPage }: { itemsPerPage: number }) => {
             <th>
               <button
                 className="btn btn-link p-0"
-                onClick={() => onColumnClick("hiring_date")}
+                onClick={() => onColumnClick('hiring_date')}
               >
                 Hiring Date
               </button>
@@ -125,7 +124,7 @@ const EmployeeTable = ({ itemsPerPage }: { itemsPerPage: number }) => {
             <th>
               <button
                 className="btn btn-link p-0"
-                onClick={() => onColumnClick("manager_id")}
+                onClick={() => onColumnClick('manager_id')}
               >
                 Manager ID
               </button>
@@ -147,7 +146,7 @@ const EmployeeTable = ({ itemsPerPage }: { itemsPerPage: number }) => {
       </table>
       <nav>
         <ul className="pagination justify-content-center">
-          <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
+          <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
             <button
               className="page-link"
               onClick={() => handlePageChange(currentPage - 1)}
@@ -163,7 +162,7 @@ const EmployeeTable = ({ itemsPerPage }: { itemsPerPage: number }) => {
           </li>
           <li
             className={`page-item ${
-              currentPage === totalPages ? "disabled" : ""
+              currentPage === totalPages ? 'disabled' : ''
             }`}
           >
             <button

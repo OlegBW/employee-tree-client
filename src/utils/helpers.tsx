@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState, useCallback } from "react";
+import { useState, useCallback } from 'react';
 
 export const useCenteredTree = (defaultTranslate = { x: 0, y: 0 }) => {
   const [translate, setTranslate] = useState(defaultTranslate);
@@ -11,4 +11,3 @@ export const useCenteredTree = (defaultTranslate = { x: 0, y: 0 }) => {
   }, []);
   return [translate, containerRef];
 };
-

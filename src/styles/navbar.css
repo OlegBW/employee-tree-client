@@ -1,35 +1,35 @@
 /* Стили для навбара */
 .navbar {
-    padding: 0.5rem 1rem;
-    position: fixed;
-    left: 0px;
-    top: 0px;
-  }
-  
-  .nav-link {
-    color: #6c757d; /* Серый цвет для ссылок */
-  }
-  
-  .nav-link:hover {
-    color: #495057; /* Тёмно-серый при наведении */
-  }
-  
-  .btn-outline-secondary {
-    border-color: #6c757d;
-    color: #6c757d;
-  }
-  
-  .btn-outline-secondary:hover {
-    background-color: #6c757d;
-    color: #fff;
-  }
-  
-  .btn-secondary {
-    background-color: #6c757d;
-    border-color: #6c757d;
-  }
-  
-  .btn-secondary:hover {
-    background-color: #5a6268;
-    border-color: #545b62;
-  }
+  padding: 0.5rem 1rem;
+  position: fixed;
+  left: 0px;
+  top: 0px;
+}
+
+.nav-link {
+  color: #6c757d; /* Серый цвет для ссылок */
+}
+
+.nav-link:hover {
+  color: #495057; /* Тёмно-серый при наведении */
+}
+
+.btn-outline-secondary {
+  border-color: #6c757d;
+  color: #6c757d;
+}
+
+.btn-outline-secondary:hover {
+  background-color: #6c757d;
+  color: #fff;
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  border-color: #6c757d;
+}
+
+.btn-secondary:hover {
+  background-color: #5a6268;
+  border-color: #545b62;
+}

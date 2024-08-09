@@ -1,6 +1,6 @@
 import { useState, FormEvent } from 'react';
 
-const baseUrl = "http://localhost:8000/api/token/";
+const baseUrl = 'http://localhost:8000/api/token/';
 
 const LoginForm = () => {
   const [username, setUsername] = useState('');
@@ -40,7 +40,9 @@ const LoginForm = () => {
         <h2 className="mb-4">Login</h2>
         {error && <div className="alert alert-danger">{error}</div>}
         <div className="mb-3">
-          <label htmlFor="formUsername" className="form-label">Username</label>
+          <label htmlFor="formUsername" className="form-label">
+            Username
+          </label>
           <input
             type="text"
             className="form-control"
@@ -52,7 +54,9 @@ const LoginForm = () => {
           />
         </div>
         <div className="mb-3">
-          <label htmlFor="formPassword" className="form-label">Password</label>
+          <label htmlFor="formPassword" className="form-label">
+            Password
+          </label>
           <input
             type="password"
             className="form-control"

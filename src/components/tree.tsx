@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState, useEffect, useCallback } from "react";
-import Tree, { Point } from "react-d3-tree";
-import { TreeNodeEventCallback } from "react-d3-tree";
-import { useCenteredTree} from '../utils/helpers';
+import { useState, useEffect, useCallback } from 'react';
+import Tree, { Point } from 'react-d3-tree';
+import { TreeNodeEventCallback } from 'react-d3-tree';
+import { useCenteredTree } from '../utils/helpers';
 import '../styles/tree.css';
 
 interface RawNodeDatum {
@@ -12,9 +12,9 @@ interface RawNodeDatum {
 }
 
 interface CustomNodeDatum extends RawNodeDatum {
-    id?: number;
-    subordinate_ids?: number[];
-    children?: CustomNodeDatum[];
+  id?: number;
+  subordinate_ids?: number[];
+  children?: CustomNodeDatum[];
 }
 
 type TreeNode = {
@@ -36,17 +36,16 @@ type TreeRoot = {
 };
 
 const InitialState: RawNodeDatum = {
-  name: "Organization",
-  children: []
+  name: 'Organization',
+  children: [],
 };
-
 
 function findNodeById(obj: any, id: number): any {
   if (obj.id === id) return obj;
 
   for (const child of obj.children) {
-      const res = findNodeById(child, id);
-      if (res) return res;
+    const res = findNodeById(child, id);
+    if (res) return res;
   }
 
   return null;
@@ -54,10 +53,10 @@ function findNodeById(obj: any, id: number): any {
 
 function appendRoot(root: TreeRoot[]) {
   const tree: CustomNodeDatum = {
-    name: "Organization",
+    name: 'Organization',
     children: [],
-    id: 0
-  }
+    id: 0,
+  };
 
   for (const node of root) {
     const name = node.name;
@@ -67,10 +66,10 @@ function appendRoot(root: TreeRoot[]) {
         id: childNode.id,
         name: childNode.name,
         attributes: {
-          position: childNode.position
+          position: childNode.position,
         },
         children: [],
-        subordinate_ids: childNode.subordinate_ids
+        subordinate_ids: childNode.subordinate_ids,
       });
     }
 
@@ -78,7 +77,7 @@ function appendRoot(root: TreeRoot[]) {
       id: node.id,
       name,
       attributes: {
-        position: node.position
+        position: node.position,
       },
       children: childrens,
     });
@@ -92,64 +91,66 @@ function prepareChildren(node: TreeNode) {
     id: node.id,
     name: node.name,
     attributes: {
-      position: node.position
+      position: node.position,
     },
     children: [],
-    subordinate_ids: node.subordinate_ids
-  }
+    subordinate_ids: node.subordinate_ids,
+  };
 }
 
 function TreeComponent() {
-  // const point = useWindowCenter();
   const [translate, containerRef] = useCenteredTree();
   const [treeData, setTreeData] = useState(InitialState);
 
-  // Функція для завантаження початкових даних дерева
   useEffect(() => {
     const fetchInitialTree = async () => {
       try {
         const response = await fetch(
-          "http://localhost:8000/api/employees-tree"
+          'http://localhost:8000/api/employees-tree'
         );
         const data: TreeRoot[] = await response.json();
         const newTree = appendRoot(data);
         setTreeData(newTree);
       } catch (error) {
-        console.error("Error fetching initial tree:", error);
+        console.error('Error fetching initial tree:', error);
       }
     };
 
     fetchInitialTree();
   }, []);
 
-    const handleNodeClick: TreeNodeEventCallback = useCallback(async (nodeData) => {
-      const data: CustomNodeDatum = nodeData.data; 
+  const handleNodeClick: TreeNodeEventCallback = useCallback(
+    async (nodeData) => {
+      const data: CustomNodeDatum = nodeData.data;
       if (data.children?.length) return;
 
       const ids = data.subordinate_ids?.join(',');
-      console.log(treeData, 'treeData');
 
-      if (!(data.id)) return;
+      if (!data.id) return;
 
-      const node = findNodeById(treeData, data.id)
-      console.log(node, 'findNodeById')
+      const node = findNodeById(treeData, data.id);
 
       try {
-        console.log('fetch')
-        const response = await fetch(`http://localhost:8000/api/employees-tree/node/?ids=${ids}`);
+        const response = await fetch(
+          `http://localhost:8000/api/employees-tree/node/?ids=${ids}`
+        );
         const treeNodes: TreeNode[] = await response.json();
         const childrens = treeNodes.map(prepareChildren);
 
-        console.log(node)
         node.children = [...node.children, ...childrens];
         setTreeData(structuredClone(treeData));
       } catch (error) {
-        console.error("Error fetching child nodes:", error);
+        console.error('Error fetching child nodes:', error);
       }
-    }, [treeData]);
+    },
+    [treeData]
+  );
 
   return (
-    <div style={{ width: "100vw", height: "100vh" }} ref={containerRef as ((containerElem: any) => void)}>
+    <div
+      style={{ width: '100vw', height: '100vh' }}
+      ref={containerRef as (containerElem: any) => void}
+    >
       <Tree
         data={treeData}
         translate={translate as Point}
@@ -162,6 +163,6 @@ function TreeComponent() {
       />
     </div>
   );
-};
+}
 
 export default TreeComponent;

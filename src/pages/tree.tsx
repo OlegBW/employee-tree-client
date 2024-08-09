@@ -1,5 +1,5 @@
-import TreeComponent from "../components/tree";
-import DefaultLayout from "../layouts/default";
+import TreeComponent from '../components/tree';
+import DefaultLayout from '../layouts/default';
 
 export default function TreePage() {
   return (

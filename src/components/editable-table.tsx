@@ -1,7 +1,7 @@
-import { ChangeEvent, useEffect, useState } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
-import { Employee } from "../types/employee";
-import FilterComponent from "./filter";
+import { ChangeEvent, useEffect, useState } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Employee } from '../types/employee';
+import FilterComponent from './filter';
 
 type PaginatedEmployees = {
   count: number;
@@ -13,7 +13,7 @@ type Filter = {
   value: string;
 };
 
-const baseUrl = "http://localhost:8000/api/employees/";
+const baseUrl = 'http://localhost:8000/api/employees/';
 
 function constructUrl(
   page: number,
@@ -51,7 +51,7 @@ const EditableTable = ({ itemsPerPage }: { itemsPerPage: number }) => {
       const url = constructUrl(currentPage, ordering, filter);
       const resp = await fetch(url);
       if (!resp.ok) {
-        throw new Error("Bad request");
+        throw new Error('Bad request');
       }
 
       const paginatedEmployees: PaginatedEmployees = await resp.json();
@@ -99,27 +99,25 @@ const EditableTable = ({ itemsPerPage }: { itemsPerPage: number }) => {
 
   const handleSaveClick = async (employee: Employee) => {
     const updatedEmployee: Employee = { ...employee, ...editedFields };
-    console.log("Saving employee:", updatedEmployee);
     const resp = await fetch(`${baseUrl}${updatedEmployee.id}/update`, {
-      method: "PUT",
+      method: 'PUT',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(updatedEmployee),
     });
     if (!resp.ok) {
-      console.log("Save Error", resp.status, resp.statusText);
+      console.log('Save Error', resp.status, resp.statusText);
     }
     setEditingEmployee(null);
   };
 
   const handleDeleteClick = async (employee: Employee) => {
-    console.log("Deleting employee:", employee);
     const resp = await fetch(`${baseUrl}${employee.id}/delete`, {
-      method: "DELETE",
+      method: 'DELETE',
     });
     if (!resp.ok) {
-      console.log("Delete Error", resp.status, resp.statusText);
+      console.log('Delete Error', resp.status, resp.statusText);
     }
   };
 
@@ -132,7 +130,7 @@ const EditableTable = ({ itemsPerPage }: { itemsPerPage: number }) => {
             <th>
               <button
                 className="btn btn-link p-0"
-                onClick={() => onColumnClick("id")}
+                onClick={() => onColumnClick('id')}
               >
                 ID
               </button>
@@ -140,7 +138,7 @@ const EditableTable = ({ itemsPerPage }: { itemsPerPage: number }) => {
             <th>
               <button
                 className="btn btn-link p-0"
-                onClick={() => onColumnClick("name")}
+                onClick={() => onColumnClick('name')}
               >
                 Name
               </button>
@@ -148,7 +146,7 @@ const EditableTable = ({ itemsPerPage }: { itemsPerPage: number }) => {
             <th>
               <button
                 className="btn btn-link p-0"
-                onClick={() => onColumnClick("email")}
+                onClick={() => onColumnClick('email')}
               >
                 Email
               </button>
@@ -156,7 +154,7 @@ const EditableTable = ({ itemsPerPage }: { itemsPerPage: number }) => {
             <th>
               <button
                 className="btn btn-link p-0"
-                onClick={() => onColumnClick("position")}
+                onClick={() => onColumnClick('position')}
               >
                 Position
               </button>
@@ -164,7 +162,7 @@ const EditableTable = ({ itemsPerPage }: { itemsPerPage: number }) => {
             <th>
               <button
                 className="btn btn-link p-0"
-                onClick={() => onColumnClick("hiring_date")}
+                onClick={() => onColumnClick('hiring_date')}
               >
                 Hiring Date
               </button>
@@ -172,7 +170,7 @@ const EditableTable = ({ itemsPerPage }: { itemsPerPage: number }) => {
             <th>
               <button
                 className="btn btn-link p-0"
-                onClick={() => onColumnClick("manager_id")}
+                onClick={() => onColumnClick('manager_id')}
               >
                 Manager ID
               </button>
@@ -288,7 +286,7 @@ const EditableTable = ({ itemsPerPage }: { itemsPerPage: number }) => {
       </table>
       <nav>
         <ul className="pagination justify-content-center">
-          <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
+          <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
             <button
               className="page-link"
               onClick={() => handlePageChange(currentPage - 1)}
@@ -304,7 +302,7 @@ const EditableTable = ({ itemsPerPage }: { itemsPerPage: number }) => {
           </li>
           <li
             className={`page-item ${
-              currentPage === totalPages ? "disabled" : ""
+              currentPage === totalPages ? 'disabled' : ''
             }`}
           >
             <button
