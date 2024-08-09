@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect, useCallback } from "react";
-import Tree from "react-d3-tree";
+import Tree, { Point } from "react-d3-tree";
 import { TreeNodeEventCallback } from "react-d3-tree";
 import { useCenteredTree} from '../utils/helpers';
 import '../styles/tree.css';
@@ -12,7 +13,7 @@ interface RawNodeDatum {
 
 interface CustomNodeDatum extends RawNodeDatum {
     id?: number;
-    children_ids?: number[];
+    subordinate_ids?: number[];
     children?: CustomNodeDatum[];
 }
 
@@ -39,9 +40,8 @@ const InitialState: RawNodeDatum = {
   children: []
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function findNodeById(obj: any, id: number) {
-  console.log(obj)
+
+function findNodeById(obj: any, id: number): any {
   if (obj.id === id) return obj;
 
   for (const child of obj.children) {
@@ -56,6 +56,7 @@ function appendRoot(root: TreeRoot[]) {
   const tree: CustomNodeDatum = {
     name: "Organization",
     children: [],
+    id: 0
   }
 
   for (const node of root) {
@@ -69,7 +70,7 @@ function appendRoot(root: TreeRoot[]) {
           position: childNode.position
         },
         children: [],
-        children_ids: childNode.subordinate_ids
+        subordinate_ids: childNode.subordinate_ids
       });
     }
 
@@ -94,7 +95,7 @@ function prepareChildren(node: TreeNode) {
       position: node.position
     },
     children: [],
-    children_ids: node.subordinate_ids
+    subordinate_ids: node.subordinate_ids
   }
 }
 
@@ -121,14 +122,16 @@ function TreeComponent() {
     fetchInitialTree();
   }, []);
 
-    const handleNodeClick: TreeNodeEventCallback = useCallback(async (nodeData, event) => {
-      if (nodeData.data.children?.length) return; // Якщо у вузла вже є діти, нічого не робимо
-      console.log(nodeData, 'click');
+    const handleNodeClick: TreeNodeEventCallback = useCallback(async (nodeData) => {
+      const data: CustomNodeDatum = nodeData.data; 
+      if (data.children?.length) return;
 
-      const ids = nodeData.data.children_ids?.join(',');
-      console.log(nodeData, nodeData.data.id)
+      const ids = data.subordinate_ids?.join(',');
       console.log(treeData, 'treeData');
-      const node = findNodeById(treeData, nodeData.data.id)
+
+      if (!(data.id)) return;
+
+      const node = findNodeById(treeData, data.id)
       console.log(node, 'findNodeById')
 
       try {
@@ -146,10 +149,10 @@ function TreeComponent() {
     }, [treeData]);
 
   return (
-    <div style={{ width: "100vw", height: "100vh" }} ref={containerRef}>
+    <div style={{ width: "100vw", height: "100vh" }} ref={containerRef as ((containerElem: any) => void)}>
       <Tree
         data={treeData}
-        translate={translate}
+        translate={translate as Point}
         zoom={0.8}
         onNodeClick={(nodeData, event) => handleNodeClick(nodeData, event)}
         orientation="vertical"

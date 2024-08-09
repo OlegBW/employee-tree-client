@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState, FormEvent } from 'react';
 
 const baseUrl = "http://localhost:8000/api/register/";
 
@@ -10,7 +10,7 @@ const RegistrationForm = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setError('');
     setSuccess('');
@@ -37,7 +37,7 @@ const RegistrationForm = () => {
         const errorData = await response.json();
         setError(errorData.detail || 'Registration failed');
       }
-    } catch (err) {
+    } catch {
       setError('Network error');
     }
   };
