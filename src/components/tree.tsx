@@ -124,6 +124,8 @@ function TreeComponent() {
       const data: CustomNodeDatum = nodeData.data;
       if (data.children?.length) return;
 
+      if (!data.subordinate_ids?.length) return;
+
       const ids = data.subordinate_ids?.join(',');
 
       if (!data.id) return;
