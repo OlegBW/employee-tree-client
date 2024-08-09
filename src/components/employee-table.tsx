@@ -1,7 +1,6 @@
-import "bootstrap/dist/css/bootstrap.min.css";
+import { useEffect, useState } from "react";
 import { Employee } from "../types/employee";
-
-import { ChangeEvent, useEffect, useState } from "react";
+import FilterComponent from "./filter";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 type PaginatedEmployees = {
@@ -10,13 +9,17 @@ type PaginatedEmployees = {
 };
 
 type Filter = {
-    name: string;
-    value: string;
-}
+  name: string;
+  value: string;
+};
 
 const baseUrl = "http://localhost:8000/api/employees/";
 
-function constructUrl(page: number, ordering: string | null, filter: Filter | null) {
+function constructUrl(
+  page: number,
+  ordering: string | null,
+  filter: Filter | null
+) {
   let res = baseUrl + `?page=${page}`;
 
   if (ordering) {
@@ -29,170 +32,6 @@ function constructUrl(page: number, ordering: string | null, filter: Filter | nu
 
   return res;
 }
-
-interface FilterComponentProps {
-    fields: string[];
-    onFilter: (field: string, value: string) => void;
-}
-
-const FilterComponent: React.FC<FilterComponentProps> = ({ fields, onFilter }) => {
-  const [selectedField, setSelectedField] = useState(fields[0]);
-  const [filterText, setFilterText] = useState("");
-
-  const handleFieldChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setSelectedField(event.target.value);
-  };
-
-  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setFilterText(event.target.value);
-  };
-
-  const handleSubmit = () => {
-    onFilter(selectedField, filterText);
-  };
-
-  const handleReset = () => {
-    setSelectedField(fields[0]);
-    setFilterText("");
-  };
-
-  return (
-    <div className="container mt-4 mb-4">
-      <div className="row">
-        {/* Filter Field */}
-        <div className="col-md-4 d-flex align-items-center">
-          <div className="form-group me-3">
-            <label htmlFor="filterField" className="form-label">Filter By:</label>
-            {fields.map((field) => (
-              <div key={field} className="form-check">
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  id={field}
-                  name="filterField"
-                  value={field}
-                  checked={selectedField === field}
-                  onChange={handleFieldChange}
-                />
-                <label className="form-check-label" htmlFor={field}>
-                  {field}
-                </label>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Filter Text */}
-        <div className="col-md-4 d-flex align-items-center">
-          <div className="form-group w-100">
-            <label htmlFor="filterText" className="form-label">Filter Text:</label>
-            <input
-              id="filterText"
-              type="text"
-              className="form-control"
-              value={filterText}
-              onChange={handleInputChange}
-              placeholder="Enter text to filter..."
-            />
-          </div>
-        </div>
-
-        {/* Buttons */}
-        <div className="col-md-4 d-flex align-items-center justify-content-end">
-          <button
-            className="btn btn-secondary me-2"
-            onClick={handleReset}
-          >
-            Reset
-          </button>
-          <button
-            className="btn btn-primary"
-            onClick={handleSubmit}
-          >
-            Apply
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-// function FilterComponent({ fields, onFilter }: FilterComponentProps) {
-//     const [selectedField, setSelectedField] = useState(fields[0]);
-//     const [filterText, setFilterText] = useState("");
-  
-//     const handleFieldChange = (event: ChangeEvent<HTMLInputElement>) => {
-//       setSelectedField(event.target.value);
-//     };
-  
-//     const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-//       setFilterText(event.target.value);
-//     };
-
-//     const handleSubmit = () => {
-//         onFilter(selectedField, filterText);
-//       };
-  
-//     const handleReset = () => {
-//       setSelectedField(fields[0]);
-//       setFilterText("");
-//     };
-  
-//     return (
-//       <div className="container mt-4 mb-4">
-//         <div className="row">
-//           <div className="col-md-4">
-//             <div className="form-group">
-//               <label htmlFor="filterField">Filter By:</label>
-//               {fields.map((field) => (
-//                 <div key={field} className="form-check">
-//                   <input
-//                     className="form-check-input"
-//                     type="radio"
-//                     id={field}
-//                     name="filterField"
-//                     value={field}
-//                     checked={selectedField === field}
-//                     onChange={handleFieldChange}
-//                   />
-//                   <label className="form-check-label" htmlFor={field}>
-//                     {field}
-//                   </label>
-//                 </div>
-//               ))}
-//             </div>
-//           </div>
-//           <div className="col-md-4">
-//             <div className="form-group">
-//               <label htmlFor="filterText">Filter Text:</label>
-//               <input
-//                 id="filterText"
-//                 type="text"
-//                 className="form-control"
-//                 value={filterText}
-//                 onChange={handleInputChange}
-//                 placeholder="Enter text to filter..."
-//               />
-//             </div>
-//           </div>
-//           <div className="col-md-4 d-flex justify-content-end align-items-center">
-//           <button
-//             className="btn btn-secondary me-2 px-4"
-//             onClick={handleReset}
-//           >
-//             Reset
-//           </button>
-//           <button
-//             className="btn btn-primary px-4"
-//             onClick={handleSubmit}
-//           >
-//             Apply
-//           </button>
-//         </div>
-//         </div>
-//       </div>
-//     );
-//   };
 
 const EmployeeTable = ({ itemsPerPage }: { itemsPerPage: number }) => {
   const [employees, setEmployees] = useState<Employee[]>([]);
@@ -231,15 +70,15 @@ const EmployeeTable = ({ itemsPerPage }: { itemsPerPage: number }) => {
 
   function onFilter(field: string, value: string) {
     setFilter({
-        name: field,
-        value,
-    })
+      name: field,
+      value,
+    });
     console.log(field, value);
   }
 
   return (
     <div className="container mt-4">
-        <FilterComponent fields={["name", "email", "position", "hiring_date", "id", "manager_id"]} onFilter={onFilter} />
+      <FilterComponent onFilter={onFilter} />
       <table className="table table-striped table-bordered">
         <thead className="thead-dark">
           <tr>

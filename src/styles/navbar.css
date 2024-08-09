@@ -1,6 +1,9 @@
 /* Стили для навбара */
 .navbar {
     padding: 0.5rem 1rem;
+    position: fixed;
+    left: 0px;
+    top: 0px;
   }
   
   .nav-link {

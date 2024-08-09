@@ -35,7 +35,7 @@ type TreeRoot = {
 };
 
 const InitialState: RawNodeDatum = {
-  name: "Origin",
+  name: "Organization",
   children: []
 };
 
@@ -54,7 +54,7 @@ function findNodeById(obj: any, id: number) {
 
 function appendRoot(root: TreeRoot[]) {
   const tree: CustomNodeDatum = {
-    name: "Origin",
+    name: "Organization",
     children: [],
   }
 

@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css"; // Импортируем стили Bootstrap
+import "../styles/navbar.css"
 
 const NavigationBar = () => {
   return (
@@ -9,7 +10,7 @@ const NavigationBar = () => {
     >
       <div className="container">
         <Link className="navbar-brand" to="/">
-          MyApp
+          Home
         </Link>
         <button
           className="navbar-toggler"
@@ -32,6 +33,16 @@ const NavigationBar = () => {
             <li className="nav-item">
               <Link className="nav-link" to="/employees">
                 Employees
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/employees/admin">
+                Admin Panel
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/employees/add">
+                Add
               </Link>
             </li>
           </ul>

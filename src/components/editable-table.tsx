@@ -1,7 +1,7 @@
+import { ChangeEvent, useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Employee } from "../types/employee";
-
-import { ChangeEvent, useEffect, useState } from "react";
+import FilterComponent from "./filter";
 
 type PaginatedEmployees = {
   count: number;
@@ -15,7 +15,11 @@ type Filter = {
 
 const baseUrl = "http://localhost:8000/api/employees/";
 
-function constructUrl(page: number, ordering: string | null, filter: Filter | null) {
+function constructUrl(
+  page: number,
+  ordering: string | null,
+  filter: Filter | null
+) {
   let res = baseUrl + `?page=${page}`;
 
   if (ordering) {
@@ -29,88 +33,6 @@ function constructUrl(page: number, ordering: string | null, filter: Filter | nu
   return res;
 }
 
-interface FilterComponentProps {
-  fields: string[];
-  onFilter: (field: string, value: string) => void;
-}
-
-function FilterComponent({ fields, onFilter }: FilterComponentProps) {
-  const [selectedField, setSelectedField] = useState(fields[0]);
-  const [filterText, setFilterText] = useState("");
-
-  const handleFieldChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setSelectedField(event.target.value);
-  };
-
-  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setFilterText(event.target.value);
-  };
-
-  const handleSubmit = () => {
-    onFilter(selectedField, filterText);
-  };
-
-  const handleReset = () => {
-    setSelectedField(fields[0]);
-    setFilterText("");
-  };
-
-  return (
-    <div className="container mt-4 mb-4">
-      <div className="row">
-        <div className="col-md-4">
-          <div className="form-group">
-            <label htmlFor="filterField">Filter By:</label>
-            {fields.map((field) => (
-              <div key={field} className="form-check">
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  id={field}
-                  name="filterField"
-                  value={field}
-                  checked={selectedField === field}
-                  onChange={handleFieldChange}
-                />
-                <label className="form-check-label" htmlFor={field}>
-                  {field}
-                </label>
-              </div>
-            ))}
-          </div>
-        </div>
-        <div className="col-md-4">
-          <div className="form-group">
-            <label htmlFor="filterText">Filter Text:</label>
-            <input
-              id="filterText"
-              type="text"
-              className="form-control"
-              value={filterText}
-              onChange={handleInputChange}
-              placeholder="Enter text to filter..."
-            />
-          </div>
-        </div>
-        <div className="col-md-4 d-flex justify-content-end align-items-center">
-          <button
-            className="btn btn-secondary me-2 px-4"
-            onClick={handleReset}
-          >
-            Reset
-          </button>
-          <button
-            className="btn btn-primary px-4"
-            onClick={handleSubmit}
-          >
-            Apply
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 const EditableTable = ({ itemsPerPage }: { itemsPerPage: number }) => {
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [totalItems, setTotalItems] = useState(1);
@@ -118,7 +40,9 @@ const EditableTable = ({ itemsPerPage }: { itemsPerPage: number }) => {
   const [ordering, setOrdering] = useState<null | string>(null);
   const [filter, setFilter] = useState<Filter | null>(null);
   const [editingEmployee, setEditingEmployee] = useState<null | Employee>(null);
-  const [editedFields, setEditedFields] = useState<{ [key: string]: string | number }>({});
+  const [editedFields, setEditedFields] = useState<{
+    [key: string]: string | number;
+  }>({});
 
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
@@ -173,23 +97,35 @@ const EditableTable = ({ itemsPerPage }: { itemsPerPage: number }) => {
     });
   };
 
-  const handleSaveClick = (employee: Employee) => {
-    console.log("Saving employee:", { ...employee, ...editedFields });
-    // Replace the console.log with the actual API call to save changes
+  const handleSaveClick = async (employee: Employee) => {
+    const updatedEmployee: Employee = { ...employee, ...editedFields };
+    console.log("Saving employee:", updatedEmployee);
+    const resp = await fetch(`${baseUrl}${updatedEmployee.id}/update`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedEmployee),
+    });
+    if (!resp.ok) {
+      console.log("Save Error", resp.status, resp.statusText);
+    }
     setEditingEmployee(null);
   };
 
-  const handleDeleteClick = (employee: Employee) => {
+  const handleDeleteClick = async (employee: Employee) => {
     console.log("Deleting employee:", employee);
-    // Replace the console.log with the actual API call to delete the employee
+    const resp = await fetch(`${baseUrl}${employee.id}/delete`, {
+      method: "DELETE",
+    });
+    if (!resp.ok) {
+      console.log("Delete Error", resp.status, resp.statusText);
+    }
   };
 
   return (
     <div className="container mt-4">
-      <FilterComponent
-        fields={["name", "email", "position", "hiring_date", "id", "manager_id"]}
-        onFilter={onFilter}
-      />
+      <FilterComponent onFilter={onFilter} />
       <table className="table table-striped table-bordered">
         <thead className="thead-dark">
           <tr>
